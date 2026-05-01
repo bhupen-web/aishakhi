@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viral SEO Checker</title>
+    <style>
+        body { font-family: sans-serif; background: #121212; color: white; padding: 20px; text-align: center; }
+        .container { max-width: 400px; margin: auto; background: #1e1e1e; padding: 20px; border-radius: 15px; box-shadow: 0 0 20px rgba(0,212,255,0.2); }
+        input, textarea { width: 90%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #333; background: #2d2d2d; color: white; }
+        button { width: 100%; padding: 15px; background: #00d4ff; color: black; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; }
+        .score-box { margin-top: 20px; padding: 15px; border-radius: 10px; display: none; }
+        h2 { color: #00d4ff; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🚀 Viral Checker</h2>
+    
+    <input type="text" id="keyword" placeholder="Main Keyword (e.g. Krishna)">
+    
+    <textarea id="desc" rows="4" placeholder="Description yahan likhein..."></textarea>
+    
+    <textarea id="tags" rows="3" placeholder="Tags yahan daalein (comma lagakar)..."></textarea>
+    
+    <button onclick="checkEverything()">Viral Score Dekho</button>
+
+    <div id="resultBox" class="score-box">
+        <h3 id="scoreText">Score: 0%</h3>
+        <p id="feedback"></p>
+    </div>
+</div>
+
+<script>
+function checkEverything() {
+    let kw = document.getElementById('keyword').value.toLowerCase();
+    let ds = document.getElementById('desc').value.toLowerCase();
+    let tg = document.getElementById('tags').value.toLowerCase();
+    let totalScore = 0;
+    let feedback = "";
+
+    if(!kw || !ds) { alert("Pehle Keyword aur Description bhariye!"); return; }
+
+    // 1. Description Score (50 marks)
+    if(ds.includes(kw)) {
+        totalScore += 30;
+        if(ds.indexOf(kw) < 50) totalScore += 20; // Shuruat mein hai toh bonus
+    }
+
+    // 2. Tag Score (30 marks)
+    let tagArray = tg.split(',').filter(t => t.trim().length > 0);
+    if(tagArray.length >= 5) totalScore += 30;
+    else totalScore += (tagArray.length * 5);
+
+    // 3. Viral Words Bonus (20 marks)
+    let viralWords = ["viral", "trending", "shorts", "amazing", "bhakti"];
+    viralWords.forEach(w => { if(ds.includes(w) || tg.includes(w)) totalScore += 4; });
+
+    // Result Display
+    let res = document.getElementById('resultBox');
+    let st = document.getElementById('scoreText');
+    let fb = document.getElementById('feedback');
+
+    res.style.display = "block";
+    st.innerText = "Viral Score: " + (totalScore > 100 ? 100 : totalScore) + "%";
+    
+    if(totalScore >= 80) {
+        res.style.background = "#2ed573";
+        fb.innerText = "🔥 Wah! Ye video pakka viral hogi.";
+    } else if(totalScore >= 50) {
+        res.style.background = "#ffa502";
+        fb.innerText = "📈 Accha hai, par keywords aur daalo.";
+    } else {
+        res.style.background = "#ff4757";
+        fb.innerText = "📉 Improvement chahiye bhai!";
+    }
+}
+</script>
+
+</body>
+</html>
+
+
